@@ -9,6 +9,7 @@ use App\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class StudentsController extends Controller
 {
@@ -57,8 +58,12 @@ class StudentsController extends Controller
         ]);
         $student=Students::find(auth()->user()->id);
         $student->password=Hash::make($request->new_passoword);
-        $student->save();
-        return view('student.change-password')->with('message',"Password Changed Successfully");
+        if($student->save()){
+            Session::flash('success',"Password Changed Succesfully");
+        }else{
+            Session::flash('fail',"Something Went Wrong While updating password");
+        }
+        return view('student.change-password');
     }
     public function show_change_password()
     {

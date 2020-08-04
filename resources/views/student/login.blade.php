@@ -10,6 +10,15 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 </head>
 <body>
+<div class="card-body">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div><br />
 <div class="container-fluid">
     <div class="row my-5">
         <div class="col-2 col-md-4">

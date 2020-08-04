@@ -1,31 +1,22 @@
-@extends('layouts.student_header')
+@extends('layouts.admin_header')
 @section('content')
     @if(Session::has('success'))
-    <div class="alert alert-success" role="alert">
-        {{Session::get('success')}}
-    </div>
-@endif
-@if(Session::has('fail'))
-    <div class="alert alert-danger" role="alert">
-        {{Session::get('fail')}}
-    </div>
-@endif
-    <div class="card-body">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div><br />
+        <div class="alert alert-success" role="alert">
+            {{Session::get('success')}}
+        </div>
+    @endif
+    @if(Session::has('fail'))
+        <div class="alert alert-danger" role="alert">
+            {{Session::get('fail')}}
+        </div>
+    @endif
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-2"></div>
 <div class="col-md-8 col-12 jumbotron">
 <h1 class="display-6">change password</h1>
 <hr class="under-line">
-<form action="{{Route('student.change_password_form')}}" method="post">
+<form action="{{Route('admin.change_password')}}" method="post">
     @csrf
   <div class="form-group">
     <label for="newpass">New password</label>

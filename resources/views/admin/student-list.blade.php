@@ -1,3 +1,4 @@
+@extends("layouts.admin_header")
 <!--students-list-->
 <div class="table-responsive">
 <table class="table">
@@ -32,3 +33,4 @@
 </table>
 </div>
 <!--students-list-->
+@endsection

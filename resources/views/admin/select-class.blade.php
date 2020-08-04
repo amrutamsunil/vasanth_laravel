@@ -1,4 +1,6 @@
+@extends('layouts.admin_header')
 <!--section select-->
+@section('content')
 <div class="container-fluid jumbotron">
     <div class="row">
         <div class="col-md-7 offset-md-2">
@@ -16,3 +18,4 @@
         </div>
 </div>
 <!--section select-->
+@endsection

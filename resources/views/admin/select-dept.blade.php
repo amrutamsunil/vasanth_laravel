@@ -1,21 +1,71 @@
-<!--dept select-->
+@extends("layouts.admin_header")
+@section('content')
+    <div class="card-body">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div><br />
+        @endif
+    <form action="{{Route('admin.select_department')}}" method="POST">
+        @csrf
 <div class="container-fluid jumbotron">
     <div class="row">
         <div class="col-md-7 offset-md-2">
             <div class="input-group mb-3">
-                <select class="custom-select" id="inputGroupSelect02">
+                <select class="custom-select" name="select_dept" id="inputGroupSelect02">
                     <option selected>Select department</option>
-                    <option value="1">CSE</option>
-                    <option value="2">CIVIL</option>
-                    <option value="3">MECH</option>
-                    <option value="4">EEE</option>
-                    <option value="5">ECE</option>
+                    @foreach($departments as $department)
+                        <option value="{{$department->id}}">{{$department->name}}</option>
+                    @endforeach
                 </select>
                 <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button">Select</button>
+                <input class="btn btn-outline-secondary" value="Select" type="submit">
                 </div>
             </div>
 
         </div>
 </div>
-<!--dept select-->
+</div>
+    </form>
+@if(Session::has('department_id') || Session::has('class_id'))
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Selected Department</h5>
+                    <p class="card-text">{{Session::get('department_name')}}</p>
+                </div>
+            </div>
+            <form action="{{Route('admin.select_class')}}" method="POST">
+                @csrf
+                <div class="container-fluid jumbotron">
+                    <div class="row">
+                        <div class="col-md-7 offset-md-2">
+                            <div class="input-group mb-3">
+                                <select class="custom-select" name="select_class" id="inputGroupSelect02">
+                                    <option selected>Select Class</option>
+                                    @foreach($classes as $class)
+                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="input-group-prepend">
+                                    <input class="btn btn-outline-secondary" value="Select" type="submit">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+    </form>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Selected Class</h5>
+                        <p class="card-text">{{Session::get('class_name')}}</p>
+                    </div>
+                </div>
+        @endif
+
+        <!--dept select-->
+@endsection
