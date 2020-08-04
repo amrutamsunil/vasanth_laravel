@@ -22,9 +22,12 @@ class CreateResultsTable extends Migration
             $table->timestamps();
         });
         Schema::table('results',function(Blueprint $table){
-            $table->foreign('class_subject_id')->references('id')->on('classes_subjects');
-            $table->foreign('exam_id')->references('id')->on('exams');
-            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('class_subject_id')->references('id')->on('classes_subjects')
+                ->onDelete('cascade');;
+            $table->foreign('exam_id')->references('id')->on('exams')
+                ->onDelete('cascade');;
+            $table->foreign('student_id')->references('id')->on('students')
+                ->onDelete('cascade');;
         });
     }
 

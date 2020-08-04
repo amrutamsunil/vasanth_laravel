@@ -2,14 +2,14 @@
 
 
 namespace App\Http\Controllers\Auth;
-
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Auth;
 use App\Students;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Session;
 
 
 class StudentsAuthController extends Controller
@@ -33,6 +33,8 @@ use AuthenticatesUsers;
 if(Auth::guard('student')->attempt(['roll_no'=>$request->username,
     'password'=>$request->password],$request->remember)){
 return redirect()->intended('student/dashboard');
+}else{
+    Session::flash('fail','Incorrect Credentials');
 }
 return redirect()->back();
     }

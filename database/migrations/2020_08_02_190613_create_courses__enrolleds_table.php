@@ -21,8 +21,10 @@ class CreateCoursesEnrolledsTable extends Migration
             $table->timestamps();
         });
         Schema::table('courses_enrolled',function(Blueprint $table){
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('student_id')->references('id')->on('students')
+                ->onDelete('cascade');;
+            $table->foreign('course_id')->references('id')->on('courses')
+                ->onDelete('cascade');;
         });
     }
 

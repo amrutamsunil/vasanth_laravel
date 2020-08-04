@@ -10,8 +10,8 @@
         {{Session::get('fail')}}
     </div>
 @endif
-    <div class="card-body">
-        @if ($errors->any())
+    @if ($errors->any())
+        <div class="card-body">
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -19,6 +19,7 @@
                     @endforeach
                 </ul>
             </div><br />
+        @endif
 <div class="container-fluid">
 <div class="row">
 <div class="col-md-2"></div>

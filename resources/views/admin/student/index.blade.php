@@ -23,6 +23,11 @@
         {{Session::get('fail')}}
     </div>
 @endif
+<div class="text-center">
+    <a href="{{Route('admin.show_add_student')}}">
+    <button type="button" class="btn btn-success"> Add </button>
+    </a>
+</div>
 <div class="table-responsive">
     <table class="table">
         <thead class="thead-dark">

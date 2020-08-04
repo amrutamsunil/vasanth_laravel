@@ -1,7 +1,7 @@
 @extends("layouts.admin_header")
 @section('content')
-    <div class="card-body">
-        @if ($errors->any())
+    @if ($errors->any())
+        <div class="card-body">
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)

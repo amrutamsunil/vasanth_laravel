@@ -20,7 +20,8 @@ class CreateClassesTable extends Migration
             $table->timestamps();
         });
         Schema::table('classes',function(Blueprint $table){
-           $table->foreign("dept_id")->references("id")->on("departments");
+           $table->foreign("dept_id")->references("id")->on("departments")
+               ->onDelete('cascade');;
         });
     }
 

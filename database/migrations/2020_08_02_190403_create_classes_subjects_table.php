@@ -20,8 +20,10 @@ class CreateClassesSubjectsTable extends Migration
             $table->timestamps();
         });
         Schema::table('classes_subjects',function(Blueprint $table){
-            $table->foreign('class_id')->references('id')->on('classes');
-            $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->foreign('class_id')->references('id')->on('classes')
+                ->onDelete('cascade');;
+            $table->foreign('subject_id')->references('id')->on('subjects')
+                ->onDelete('cascade');;
         });
     }
 

@@ -38,13 +38,14 @@ Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
     Route::get('new_registration','AdminController@new_registration')->name('new_registration');
     Route::get('change_password_page','AdminController@show_change_password')->name('show_change_password');
     Route::post('change_password','AdminController@change_password')->name('change_password');
-
     Route::post('select_class','AdminController@select_class')->name('select_class');
     Route::get('choose_department','AdminController@choose_department')->name('choose_department');
     Route::get('students','AdminController@show_students')->name('students');
     Route::post('student_edit','AdminController@student_edit')->name('student_edit');
     Route::get('delete_student/{student_id}','AdminController@delete_student')->name('delete_student');
     Route::get('student_profile/{student_id}','AdminController@student_profile')->name('student_profile');
+    Route::get('add_new_student','AdminController@show_add_student')->name('show_add_student');
+    Route::post('add_new_student','AdminController@add_student')->name('add_student');
 
 
 

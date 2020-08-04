@@ -13,7 +13,7 @@
 <!--Nav-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
 <div class="container-fluid">
-    <a href="{{Route('admin.dashboard')}}"><h3 class="navbar-brand"><i class="fa fa-home" aria-hidden="true"></i>Home</h3></a>
+    <a href="{{Route('admin.students')}}"><h3 class="navbar-brand"><i class="fa fa-home" aria-hidden="true"></i>Home</h3></a>
     @if(Session::has('department_id') && Session::has('department_short_name'))
         <a href="{{Route('admin.choose_department')}}"><h3 class="navbar-brand">Dept : {{Session::get('department_short_name')}}</h3></a>
     @endif
@@ -25,13 +25,13 @@
     </button>
 <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link btn btn-secondary"
+        <li class="nav-item {{'admin/students'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.students')}}">Students</a></li>
-        <li class="nav-item"><a class="nav-link"
+        <li class="nav-item {{'admin/change_password_page'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.show_change_password')}}"><i class="fa fa-wrench" aria-hidden="true"></i>Change password</a></li>
-        <li class="nav-item"><a class="nav-link"
+        <li class="nav-item {{'admin/choose_department'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.choose_department')}}"><i class="fa fa-wrench" aria-hidden="true"></i>Choose Department</a></li>
-        <li class="nav-item"><a class="nav-link"
+        <li class="nav-item {{'admin/logout'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i>Signout</a></li>
     </ul>
 </div>

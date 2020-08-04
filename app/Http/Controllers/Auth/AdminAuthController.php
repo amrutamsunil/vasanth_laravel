@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminAuthController extends Controller
 {
@@ -26,9 +27,11 @@ class AdminAuthController extends Controller
             'username'=>'required',
             'password'=>'required'
         ]);
-        if(Auth::guard('admin')->attempt(['username'=>$request->username,
-            'password'=>$request->password],$request->remember)){
-            return redirect()->intended('admin/dashboard');
+        if(Auth::guard('admin')->attempt(['username'=>$request->input('username'),
+            'password'=>$request->input('password')],$request->remember)){
+            return redirect()->intended('admin/students');
+        }else{
+            Session::flash('fail','Incorrect Credentials');
         }
         return redirect()->back();
     }

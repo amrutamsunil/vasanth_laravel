@@ -27,7 +27,8 @@ class CreateStudentsTable extends Migration
             $table->timestamps();
         });
         Schema::table('students',function(Blueprint $table){
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('class_id')->references('id')->on('classes')
+                ->onDelete('cascade');;
         });
     }
 

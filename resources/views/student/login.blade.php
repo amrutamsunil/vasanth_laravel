@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Student</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -10,8 +10,8 @@
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
 </head>
 <body>
+@if ($errors->any())
 <div class="card-body">
-    @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -19,12 +19,19 @@
                 @endforeach
             </ul>
         </div><br />
+</div>
+    @endif
+@if(Session::has('fail'))
+    <div class="alert alert-danger" role="alert">
+        {{Session::get('fail')}}
+    </div>
+@endif
 <div class="container-fluid">
     <div class="row my-5">
         <div class="col-2 col-md-4">
         </div>
         <div class="col-8 col-md-4 jumbotron">
-            <h2 class="text-center">Login</h2>
+            <h2 class="text-center">Student Login</h2>
             <form method="post" action="{{Route('student.login')}}" >
                 @csrf
               <div class="form-group">

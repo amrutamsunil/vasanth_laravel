@@ -22,7 +22,9 @@ class CreateFeesTable extends Migration
             $table->timestamps();
         });
         Schema::table('fees',function(Blueprint $table){
-            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('student_id')->references('id')
+                ->on('students')
+                ->onDelete('cascade');;
         });
     }
 
