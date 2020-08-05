@@ -18,7 +18,7 @@ class CreateFeesTable extends Migration
             $table->foreignId('student_id');
             $table->bigInteger('amount_paid');
             $table->bigInteger('total_amount');
-            $table->enum(['paid'],['pending'])->default('pending');
+            $table->enum('status',['paid','pending'])->default('pending');
             $table->timestamps();
         });
         Schema::table('fees',function(Blueprint $table){

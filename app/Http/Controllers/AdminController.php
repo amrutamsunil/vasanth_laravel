@@ -72,7 +72,7 @@ class AdminController extends Controller
     }
     public function select_department(Request $request){
         $this->validate($request,[
-            'select_dept'=>'required'
+            'select_dept'=>'required|regex:/^[0-9]*$/'
         ]);
         $department=Department::find($request->select_dept);
         Session::put('department_id',$request->select_dept);
@@ -82,7 +82,8 @@ class AdminController extends Controller
     }
     public function select_class(Request $request){
         $this->validate($request,[
-        'select_class'=>'required']);
+        'select_class'=>'required|regex:/^[0-9]*$/']
+        );
         $class=Classes::find($request->select_class);
         Session::put('class_id',$class->id);
         Session::put('class_name',$class->name);
@@ -93,10 +94,7 @@ class AdminController extends Controller
         if(Session::has('department_id') && Session::has('class_id')){
             $students=Classes::find(Session::get('class_id'))->students;
         }else{
-            echo "<script>
-                    alert('Select a Department and Class')
-                    </script>
-                ";
+
             $departments=Department::all();
             $classes="";
             if(Session::has('department_id')){

@@ -16,17 +16,18 @@
     <div class="row">
         <div class="col-md-7 offset-md-2">
             <div class="input-group mb-3">
+                <label for="inputGroupSelect02" class="control-label"> Select Department
                 <select class="custom-select" name="select_dept" id="inputGroupSelect02">
-                    <option selected>Select department</option>
-                    @foreach($departments as $department)
+                    <option selected>Select Department</option>
+                @foreach($departments as $department)
                         <option value="{{$department->id}}">{{$department->name}}</option>
                     @endforeach
                 </select>
+                </label>
                 <div class="input-group-prepend">
                 <input class="btn btn-outline-secondary" value="Select" type="submit">
                 </div>
             </div>
-
         </div>
 </div>
 </div>
@@ -47,7 +48,8 @@
                                 <select class="custom-select" name="select_class" id="inputGroupSelect02">
                                     <option selected>Select Class</option>
                                     @foreach($classes as $class)
-                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                        <option value="{{$class->id}}">
+                                            {{Session::get('department_short_name')}} - {{$class->name}}</option>
                                     @endforeach
                                 </select>
                                 <div class="input-group-prepend">

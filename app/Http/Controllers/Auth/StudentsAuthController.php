@@ -39,6 +39,7 @@ return redirect()->intended('student/dashboard');
 return redirect()->back();
     }
     public function logout(){
+        Session::flush();
     Auth::logout();
 return redirect('/');
     }

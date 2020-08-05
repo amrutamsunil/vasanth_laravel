@@ -26,7 +26,6 @@ Route::get('fees','StudentsController@fees')->name('fees');
 Route::get('personal_info','StudentsController@personal_info')->name('personal_info');
 Route::post('change_password','StudentsController@change_password')->name('change_password_form');
     Route::get('change_password','StudentsController@show_change_password')->name('change_password');
-Route::get('test',"StudentsController@test")->name('test');
 
 });
 Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
@@ -50,4 +49,3 @@ Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
 
 
 });
-Route::get('/test','testing@test')->name('test');

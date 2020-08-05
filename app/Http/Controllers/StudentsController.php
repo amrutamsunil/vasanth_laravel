@@ -70,13 +70,7 @@ class StudentsController extends Controller
         return view('student.change-password');
     }
 
-    public function test(){
-        $subjects=Classes::find(auth()->user()->class_id)->subjects;
-        foreach ($subjects as $index=>&$subject){
-            $subject['result']=Results::find($subject->pivot->id);
-        }
-        return response()->json($subjects);
-    }
+
 
 
 }
