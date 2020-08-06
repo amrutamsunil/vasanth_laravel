@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\Courses;
 use App\Department;
+use App\Exams;
 use App\Results;
 use App\Students;
+use App\Subjects;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -25,14 +28,18 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        $subjects=Classes::find(auth()->user()->class_id)->subjects;
-        foreach ($subjects as $index=>&$subject){
-            $subject['result']=Results::with(['exam'])
-                ->where('class_subject_id','=',$subject->pivot->id)->first();
-        }
-        return view('student.academic')->with('subjects',$subjects);
+      $results=Students::find(auth()->user()->id)->results;
+      foreach ($results as $index=>&$result){
+          $result['subject_name']=Subjects::find($result->subject_id)->name;
+          $result['exam_name']=Exams::find($result->exam_id)->name;
+      }
+        return view('student.academic')->with('results',$results);
     }
-
+    public function show_course(){
+        $enrolled_courses=Students::find(auth()->user()->id)->enrolled;
+        die(json_encode($enrolled_courses));
+        return view('student.course');
+    }
     public function academic(){
         return view('student.acedemic');
     }
@@ -70,7 +77,60 @@ class StudentsController extends Controller
         return view('student.change-password');
     }
 
+    public function courses_search(Request $request){
+        $output="";
+        if($request->ajax()){
+            $courses=Courses::where('name','LIKE','%'.$request->search.'%')->get();
+            if($courses){
+                $output.="<table class='table'>";
+                $output.="<thead class='thead-dark'>";
+                $output.="<tr>";
+                $output.="<th scope='col'>S.No</th>";
+                $output.="<th scope='col'>Course Name</th>";
+                $output.="<th scope='col'></th>";
+                $output.="</tr>";
+                $output.="</thead>";
+                $output.="</table>";
+                $output.="<tbody>";
+                foreach ($courses as $index=>$course){
+                    $output.="<tr>";
+                    $output.="<td>";
+                    $output.=($index+1);
+                    $output.="</td>";
+                    $output.="<td>";
+                    $output.="$courses->name";
+                    $output.="</td>";
+                    $output.="<td>";
+                    $output.="
+                    <a href=".Route('student.add_course',$course->id).">
+                    <button type='button' class='btn btn-success'>Buy</button>
+                    </a>";
+                    $output.="</td>";
+                    $output.="</tr>";
+                }
+                $output.="</tbody>";
+            }
+        }
+        return Response($output);
+    }
+    public function add_course($course_id){
+        $course=Courses::find($course_id);
+        if($course==null) {return redirect()->back();}
+        //increasing the students fees
+        $fees=Students::find(auth()->user()->id)->fees;
+        $fees->total_amount+=$course->fees;
+        if($fees->total_amount!=$fees->amount_paid){
+            $fees->status='pending';
+        }else{
+            $fees->status='paid';
+        }
+        if($fees->save()){
+        Session::put('success',"You have successfully Enrolled in
+        $course->name Course Costs = $course->fees Rs " );}else{
+            Session::put('fail',"Unable to buy this course ");
+        }
 
+    }
 
 
 }

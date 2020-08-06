@@ -13,18 +13,16 @@
       <th scope="col">S.no</th>
         <th scope="col">Exam</th>
       <th scope="col">Subject</th>
-      <th scope="col">Grade</th>
-        <th scope="col">Max score</th>
+      <th scope="col">Grade (Out of 100)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-        @foreach($subjects as $index=>$subject)
+        @foreach($results as $index=>$result)
             <td scope="row">{{$index+1}}</td>
-            <td>{{$subject->result->exam->name}}</td>
-            <td>{{$subject->name}}</td>
-            <td>{{$subject->result->mark}}</td>
-            <td>{{$subject->result->exam->max_score}}</td>
+            <td>{{$result->exam_name}}</td>
+            <td>{{$result->subject_name}}</td>
+            <td>{{$result->mark}}</td>
         @endforeach
 
     </tr>

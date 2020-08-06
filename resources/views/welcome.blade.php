@@ -94,6 +94,11 @@
 
         </div>
     </nav>
+    @if(Session::has('login_fail'))
+        <div class="alert alert-danger" role="alert">
+            {{Session::get('login_fail')}}
+        </div>
+    @endif
         <div class="flex-center position-ref full-height">
 
 

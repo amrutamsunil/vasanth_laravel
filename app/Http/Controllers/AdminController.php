@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use App\Classes;
+use App\Courses;
 use App\Department;
 use App\Fees;
 use App\Students;
@@ -42,10 +43,7 @@ class AdminController extends Controller
     public function show_add_student(){
         if(!(Session::has('department_id') && Session::has('class_id')))
             {
-            echo "<script>
-                    alert('Select a Department and Class')
-                    </script>
-                ";
+
             $departments=Department::all();
             $classes="";
             if(Session::has('department_id')){
@@ -205,4 +203,5 @@ class AdminController extends Controller
         }
         return redirect()->back();
     }
+
 }

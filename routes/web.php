@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Students;
+use Illuminate\Support\Facades\Session;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +18,10 @@ use App\Students;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/login',function (){
+    Session::flash('login_fail',"Unauthorized Access");
+    return view('welcome');
+})->name('login');
 Route::group(['prefix'=>'student','as'=>'student.'],function(){
     Route::post('login','Auth\StudentsAuthController@login')->name('login');
     Route::get('logout','Auth\StudentsAuthController@logout')->name('logout');
@@ -26,6 +32,10 @@ Route::get('fees','StudentsController@fees')->name('fees');
 Route::get('personal_info','StudentsController@personal_info')->name('personal_info');
 Route::post('change_password','StudentsController@change_password')->name('change_password_form');
     Route::get('change_password','StudentsController@show_change_password')->name('change_password');
+    Route::get('courses_search','StudentsController@courses_search')->name('courses_search');
+    Route::get('add_course','StudentsController@add_course')->name('add_course');
+    Route::get('show_course','StudentsController@show_course')->name('show_course');
+
 
 });
 Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
@@ -45,7 +55,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
     Route::get('student_profile/{student_id}','AdminController@student_profile')->name('student_profile');
     Route::get('add_new_student','AdminController@show_add_student')->name('show_add_student');
     Route::post('add_new_student','AdminController@add_student')->name('add_student');
-
-
-
+});
+Route::get('/test',function(){
+    return view('admin.course');
 });
