@@ -17,15 +17,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-        @foreach($results as $index=>$result)
+            @foreach($results as $index=>$result)
+                <tr>
             <td scope="row">{{$index+1}}</td>
             <td>{{$result->exam_name}}</td>
             <td>{{$result->subject_name}}</td>
             <td>{{$result->mark}}</td>
+                </tr>
         @endforeach
 
-    </tr>
+
 
   </tbody>
 </table>

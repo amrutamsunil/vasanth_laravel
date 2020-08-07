@@ -27,6 +27,9 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item {{'admin/students'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.students')}}">Students</a></li>
+
+        <li class="nav-item {{'admin/show_academic'==request()->path() ? 'active' : ''}}"><a class="nav-link"
+                                                                                        href="{{Route('admin.show_academic')}}">Academic Report</a></li>
         <li class="nav-item {{'admin/change_password_page'==request()->path() ? 'active' : ''}}"><a class="nav-link"
                                 href="{{Route('admin.show_change_password')}}"><i class="fa fa-wrench" aria-hidden="true"></i>Change password</a></li>
         <li class="nav-item {{'admin/choose_department'==request()->path() ? 'active' : ''}}"><a class="nav-link"

@@ -17,7 +17,6 @@ class CreateCoursesEnrolledsTable extends Migration
             $table->id();
             $table->foreignId('student_id');
             $table->foreignId('course_id');
-            $table->enum('status',['active','inactive','expired'])->default('inactive');
             $table->timestamps();
         });
         Schema::table('courses_enrolled',function(Blueprint $table){

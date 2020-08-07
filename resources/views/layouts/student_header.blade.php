@@ -21,6 +21,8 @@
     <ul class="navbar-nav ml-auto">
     	<li class="nav-item {{'student/dashboard'==request()->path() ? 'active' : ''}}">
             <a class="nav-link" href="{{Route('student.dashboard')}}"><i class="fa fa-book" aria-hidden="true"></i>Academic</a></li>
+        <li class="nav-item {{'student/show_courses'==request()->path() ? 'active' : ''}}">
+            <a class="nav-link" href="{{Route('student.show_course')}}"><i class="fa fa-book" aria-hidden="true"></i>Show Courses</a></li>
     	<li class="nav-item {{'student/fees'==request()->path() ? 'active' : ''}}">
             <a class="nav-link" href="{{Route('student.fees')}}"><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Fees details</a></li>
     	<li class="nav-item {{'student/personal_info'==request()->path() ? 'active' : ''}}">

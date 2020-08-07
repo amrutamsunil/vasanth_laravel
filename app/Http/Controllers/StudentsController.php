@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes;
 use App\Courses;
+use App\Courses_Enrolled;
 use App\Department;
 use App\Exams;
 use App\Results;
@@ -35,10 +36,22 @@ class StudentsController extends Controller
       }
         return view('student.academic')->with('results',$results);
     }
+    public function check($enrolled_courses,$course_id){
+        foreach ($enrolled_courses as $ec){
+            if($ec->id==$course_id) {return true;}
+        }
+        return false;
+    }
     public function show_course(){
-        $enrolled_courses=Students::find(auth()->user()->id)->enrolled;
-        die(json_encode($enrolled_courses));
-        return view('student.course');
+        $courses_enrolled=Students::find(auth()->user()->id)->enrolled;
+        $courses=Courses::all();
+        foreach ($courses as $index=>&$course){
+            if($this->check($courses_enrolled,$course->id)) {
+                unset($courses[$index]);
+            }
+        }
+;        return view('student.course')->with('courses_enrolled',$courses_enrolled)
+            ->with('courses',$courses);
     }
     public function academic(){
         return view('student.acedemic');
@@ -77,45 +90,12 @@ class StudentsController extends Controller
         return view('student.change-password');
     }
 
-    public function courses_search(Request $request){
-        $output="";
-        if($request->ajax()){
-            $courses=Courses::where('name','LIKE','%'.$request->search.'%')->get();
-            if($courses){
-                $output.="<table class='table'>";
-                $output.="<thead class='thead-dark'>";
-                $output.="<tr>";
-                $output.="<th scope='col'>S.No</th>";
-                $output.="<th scope='col'>Course Name</th>";
-                $output.="<th scope='col'></th>";
-                $output.="</tr>";
-                $output.="</thead>";
-                $output.="</table>";
-                $output.="<tbody>";
-                foreach ($courses as $index=>$course){
-                    $output.="<tr>";
-                    $output.="<td>";
-                    $output.=($index+1);
-                    $output.="</td>";
-                    $output.="<td>";
-                    $output.="$courses->name";
-                    $output.="</td>";
-                    $output.="<td>";
-                    $output.="
-                    <a href=".Route('student.add_course',$course->id).">
-                    <button type='button' class='btn btn-success'>Buy</button>
-                    </a>";
-                    $output.="</td>";
-                    $output.="</tr>";
-                }
-                $output.="</tbody>";
-            }
-        }
-        return Response($output);
-    }
-    public function add_course($course_id){
+    public function add_course($course_id) {
         $course=Courses::find($course_id);
         if($course==null) {return redirect()->back();}
+        $enroll_course=new Courses_Enrolled();
+        $enroll_course->student_id=auth()->user()->id;
+        $enroll_course->course_id=$course_id;
         //increasing the students fees
         $fees=Students::find(auth()->user()->id)->fees;
         $fees->total_amount+=$course->fees;
@@ -124,12 +104,36 @@ class StudentsController extends Controller
         }else{
             $fees->status='paid';
         }
-        if($fees->save()){
-        Session::put('success',"You have successfully Enrolled in
-        $course->name Course Costs = $course->fees Rs " );}else{
-            Session::put('fail',"Unable to buy this course ");
+        if($fees->save() && $enroll_course->save()){
+        Session::flash('success',"You have successfully Enrolled in
+        $course->name Course Costs = $course->fees Rs " );}
+        else{
+            Session::flash('fail',"Unable to buy this course ");
         }
-
+        return redirect()->action('StudentsController@show_course');
+    }
+    public function remove_course($course_id){
+        $course=Courses::find($course_id);
+        $course_enrolled=Courses_Enrolled::where('student_id','=',auth()->user()->id)
+            ->where('course_id','=',$course_id)->first();
+        if($course_enrolled==null || $course==null){
+            Session::flash('fail','Oops, Cannot fetch such course ');
+            return redirect()->action('StudentsController@show_course');
+        }
+        $fees=Students::find(auth()->user()->id)->fees;
+        $fees->total_amount-=$course->fees;
+        $fees->paid-=$course->fees;
+        if($fees->total_amount!=$fees->amount_paid){
+            $fees->status='pending';
+        }else{
+            $fees->status='paid';
+        }
+        if($course_enrolled->delete() && $fees->save()){
+            Session::flash('success',"Successfully Deleted the $course->name Course");
+        }else{
+            Session::flash('fail',"Error while Un-Enrolling the $course->name course");
+        }
+        return redirect()->action('StudentsController@show_course');
     }
 
 

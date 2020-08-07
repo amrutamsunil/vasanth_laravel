@@ -21,7 +21,7 @@ class Students extends Authenticatable
     }
     public function enrolled(){
         return $this->belongsToMany('App\Courses','courses_enrolled','student_id','course_id')
-            ->withPivot('status','id');
+            ->withPivot('id');
     }
     public function results(){
         return $this->hasMany('App\Results','student_id');

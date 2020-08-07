@@ -47,9 +47,11 @@
       <td>{{$basic_fees}}</td>
     </tr>
   @foreach($courses_enrolled as $index=>$course)
+      <tr>
       <th scope="row">{{$index+2}}</th>
       <td>{{$course->name}} Course</td>
       <td>{{$course->fees}}</td>
+      </tr>
   @endforeach
 
   </tbody>

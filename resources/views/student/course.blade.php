@@ -1,64 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <script src="{{ asset('js/app.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet" />
-</head>
-<body>
+@extends('layouts.student_header')
+@section('content')
 <!--Nav-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-<div class="container-fluid">
-    <a href="#"><h3 class="navbar-brand"><i class="fa fa-home" aria-hidden="true"></i>Home</h3></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-<div class="collapse navbar-collapse" id="navbarResponsive">
-    <ul class="navbar-nav ml-auto">
-    	<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-book" aria-hidden="true"></i>Academic</a></li>
-    	<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Fees details</a></li>
-    	<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Personal details</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-wrench" aria-hidden="true"></i>Change password</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Signout</a></li>
-    </ul>
-</div>
-</div>
-</nav>
+
 <!--Nav-->
 <br>
-
-<div class="col-md-4 offset-md-4 mt-5 border border-success pt-3">
-    <div class="input-group mb-3">
-        <input type="text" id="search" name="search" class="form-control" placeholder="Search ......" aria-label="Recipient's username">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-search"></i></span>
-        </div>
+@if(Session::has('success'))
+    <div class="alert alert-success" role="alert">
+        {{Session::get('success')}}
     </div>
-</div>
+@endif
+@if(Session::has('fail'))
+    <div class="alert alert-danger" role="alert">
+        {{Session::get('fail')}}
+    </div>
+@endif
 <hr/>
 <div id="display">
 
 </div>
-</body>
-<script type="text/javascript">
-    $('#search').on('keyup',function(){
-        $value=$(this).val();
-        $.ajax({
-            type : 'get',
-            url : '{{URL::to('courses_search')}}',
-            data:{'search':$value},
-            success:function(data){
-                $('#display').html(data);
-            }
-        });
-    })
-</script>
-<script type="text/javascript">
-    $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
 
-</html>
+@if(count($courses_enrolled) > 0)
+<h1>Enrolled Courses</h1>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Duration (in Months)</th>
+        <th scope="col">Fees</th>
+        <td scope="col"></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($courses_enrolled as $index=>$course)
+    <tr>
+        <th scope="row">{{($index+1)}}</th>
+        <td>{{$course->name}}</td>
+        <td>{{$course->duration_months}}</td>
+        <td>{{$course->fees}}</td>
+        <td><a href="{{Route('student.remove_course',$course->id)}}">
+                <button class="btn btn-danger">UnEnroll</button>
+            </a></td>
+    </tr>
+    @endforeach
+    </tbody>
+</table>
+@else
+    <h1>Oops You Have Not Purchased Any Courses Yet !! </h1>
+ @endif
+<h1>
+   Courses Offered
+</h1>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Duration (in Months)</th>
+        <th scope="col">Fees</th>
+        <td scope="col"></td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($courses as $index=>$course)
+        <tr>
+            <th scope="row">{{($index+1)}}</th>
+            <td>{{$course->name}}</td>
+            <td>{{$course->duration_months}}</td>
+            <td>{{$course->fees}}</td>
+            <td><a href="{{Route('student.add_course',$course->id)}}">
+                    <button class="btn btn-primary">Enroll</button>
+                </a></td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+
+@endsection

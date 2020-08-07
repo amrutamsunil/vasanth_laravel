@@ -23,6 +23,7 @@ Route::get('/login',function (){
     return view('welcome');
 })->name('login');
 Route::group(['prefix'=>'student','as'=>'student.'],function(){
+    Route::get('show_course','StudentsController@show_course')->name('show_course');
     Route::post('login','Auth\StudentsAuthController@login')->name('login');
     Route::get('logout','Auth\StudentsAuthController@logout')->name('logout');
     Route::get('login_page','Auth\StudentsAuthController@login_page')->name('login_page');
@@ -32,9 +33,8 @@ Route::get('fees','StudentsController@fees')->name('fees');
 Route::get('personal_info','StudentsController@personal_info')->name('personal_info');
 Route::post('change_password','StudentsController@change_password')->name('change_password_form');
     Route::get('change_password','StudentsController@show_change_password')->name('change_password');
-    Route::get('courses_search','StudentsController@courses_search')->name('courses_search');
-    Route::get('add_course','StudentsController@add_course')->name('add_course');
-    Route::get('show_course','StudentsController@show_course')->name('show_course');
+    Route::get('add_course/{course_id}','StudentsController@add_course')->name('add_course');
+    Route::get('unenroll_course/{course_id}','StudentsController@remove_course')->name('remove_course');
 
 
 });
@@ -53,8 +53,10 @@ Route::group(['prefix'=>'admin','as'=>'admin.'],function(){
     Route::post('student_edit','AdminController@student_edit')->name('student_edit');
     Route::get('delete_student/{student_id}','AdminController@delete_student')->name('delete_student');
     Route::get('student_profile/{student_id}','AdminController@student_profile')->name('student_profile');
-    Route::get('add_new_student','AdminController@show_add_student')->name('show_add_student');
     Route::post('add_new_student','AdminController@add_student')->name('add_student');
+    Route::get('show_academic','AdminController@show_academic')->name('show_academic');
+    Route::get('edit_student_report/{student_id}','AdminController@edit_student_report')->name('edit_student_report');
+    Route::post('add_academic_report','AdminController@add_academic_report')->name('add_academic_report');
 });
 Route::get('/test',function(){
     return view('admin.course');
